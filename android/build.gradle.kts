@@ -4,10 +4,6 @@ allprojects {
         mavenCentral()
     }
 }
-android {
-  compileSdkVersion 35
-
-}
 
 val newBuildDir: Directory =
     rootProject.layout.buildDirectory
