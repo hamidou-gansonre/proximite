@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proximite/features/pharmacie_map_guidance/presentation/providers/location_notifier.dart';
 import 'package:proximite/features/pharmacie_map_guidance/presentation/providers/location_state.dart';
 import 'package:proximite/features/pharmacie_map_guidance/presentation/providers/pharmacie_provider.dart';
+import 'package:proximite/features/pharmacie_map_guidance/presentation/providers/pharmacie_state.dart';
 import 'package:proximite/features/pharmacie_map_guidance/presentation/widgets/google_map_view.dart';
+import 'package:proximite/features/pharmacie_map_guidance/presentation/widgets/pharmacie_list_panel.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
@@ -73,14 +75,32 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         LocationSuccess(:final position) => Consumer(
           builder: (context, ref, child) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              ref.read(pharmacieProvider.notifier).loadNearByPharmacie(1);
+              final currentState = ref.read(pharmacieProvider);
+              if (currentState is PharmacieInitial) {
+                print("=== [FLUTTER] Appel unique de l'API ===");
+                ref.read(pharmacieProvider.notifier).loadNearByPharmacie();
+              }
             });
+            final state = ref.watch(pharmacieProvider);
+
             return Stack(
               children: [
                 // 1. La Carte Google Maps viendra ici
                 GoogleMapView(),
 
-                // 2. Le sélecteur de groupe de garde et la liste des pharmacies viendront par-dessus
+                // 2. Loader discret
+                if (state is PharmacieLoading)
+                  const Positioned(
+                    top: 50,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: CircularProgressIndicator(color: Colors.green),
+                    ),
+                  ),
+
+                //Panneau list view des pharmacies
+                const PharmacieListPanel(),
               ],
             );
           },

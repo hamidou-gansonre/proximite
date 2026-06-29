@@ -11,13 +11,11 @@ class PharmacieRepositoryImpl implements IPharmacieRepository {
   Future<List<PharmacieEntitie>> getPharmaciesNearBy({
     required double latitude,
     required double longitude,
-    required int groupeGarde,
   }) async {
     //Appel des sources de données
     final model = await _apiClient.fetchPharmaciesNearBy(
       latitude: latitude,
       longitude: longitude,
-      groupeGarde: groupeGarde,
     );
 
     // 2. Conversion/Mappage automatique des Modèles en Entités métiers polymorphes

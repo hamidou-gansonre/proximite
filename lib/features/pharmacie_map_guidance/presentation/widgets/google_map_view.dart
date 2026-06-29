@@ -71,7 +71,7 @@ class _GoogleMapViewState extends ConsumerState<GoogleMapView> {
             markerId: MarkerId("'pharmacie_${pharmacie.id}'"),
             position: LatLng(pharmacie.latitude, pharmacie.longitude),
             icon: BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueGreen,
+              BitmapDescriptor.hueRed,
             ),
             infoWindow: InfoWindow(
               title: pharmacie.name,
@@ -143,7 +143,6 @@ class _GoogleMapViewState extends ConsumerState<GoogleMapView> {
               mini: true,
               backgroundColor: Colors.white,
               foregroundColor: Colors.green.shade700,
-
               onPressed: () => MapCameraHelper.ajustDynamicCadrage(
                 controller: _mapController,
                 userPosition: googleMapsCenter,

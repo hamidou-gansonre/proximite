@@ -12,16 +12,11 @@ class PharmacieApiDataSource {
   Future<List<PharmacieModel>> fetchPharmaciesNearBy({
     required double latitude,
     required double longitude,
-    required int groupeGarde,
   }) async {
     try {
       final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.pharmaciesProchesEndpoint}',
-        queryParameters: {
-          'lat': latitude,
-          'lng': longitude,
-          'groupe': groupeGarde,
-        },
+        queryParameters: {'lat': latitude, 'lng': longitude},
       );
 
       // Validation de la structure des données response

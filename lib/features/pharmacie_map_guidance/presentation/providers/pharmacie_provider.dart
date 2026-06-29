@@ -14,7 +14,7 @@ class PharmacieNotifier extends StateNotifier<PharmacieState> {
     : super(const PharmacieInitial());
 
   /// Charge les pharmacies les plus proches en fonction d'un groupe de garde
-  Future<void> loadNearByPharmacie(int groupeGarde) async {
+  Future<void> loadNearByPharmacie() async {
     // 1. Récupérer l'état actuel de la localisation
     //via la Référence (Ref) de Riverpod
     final locationState = _ref.read(locationProvider);
@@ -37,7 +37,6 @@ class PharmacieNotifier extends StateNotifier<PharmacieState> {
       final pharmacies = await _repository.getPharmaciesNearBy(
         latitude: latitude,
         longitude: longitude,
-        groupeGarde: groupeGarde,
       );
 
       if (pharmacies.isEmpty) {

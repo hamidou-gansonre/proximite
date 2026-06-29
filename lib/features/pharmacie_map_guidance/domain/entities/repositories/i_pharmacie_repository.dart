@@ -6,6 +6,5 @@ abstract class IPharmacieRepository {
   Future<List<PharmacieEntitie>> getPharmaciesNearBy({
     required double latitude,
     required double longitude,
-    required int groupeGarde,
   });
 }
