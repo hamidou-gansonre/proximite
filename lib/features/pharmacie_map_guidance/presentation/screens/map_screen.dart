@@ -15,6 +15,8 @@ class MapScreen extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
+  bool _viewList = false;
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +29,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   @override
   Widget build(BuildContext context) {
     final locationState = ref.watch(locationProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -100,7 +103,47 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   ),
 
                 //Panneau list view des pharmacies
-                const PharmacieListPanel(),
+                if (_viewList && state is PharmacieSuccess)
+                  PharmacieListPanel(
+                    onClose: () {
+                      setState(() {
+                        _viewList = false;
+                      });
+                    },
+                  ),
+
+                if (!_viewList && state is PharmacieSuccess)
+                  Positioned(
+                    bottom: 30,
+                    left: 20,
+                    right: 20,
+                    child: SafeArea(
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green.shade700,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 4,
+                        ),
+                        icon: const Icon(Icons.list),
+                        label: Text(
+                          "Voir les pharmacies",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _viewList = true;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
               ],
             );
           },
